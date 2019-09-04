@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxj.mapper.EmpMapper">
+    <insert id="addEmp">
+        insert into emp(empno,ename,job,hiredate,sal) values(#{empno},#{ename},#{job},#{hiredate},#{sal})
+    </insert>
+
+    <update id="updateEmp">
+      update emp set ename=#{ename},job=#{job},hiredate=#{hiredate},sal=#{sal} where empno=#{empno}
+    </update>
+
+    <delete id="delEmp">
+      delete from emp where empno=#{empno}
+    </delete>
+
+    <select id="findEmpById" resultType="com.hxj.domain.Emp">
+      select empno,ename,job,hiredate,sal from emp where empno=#{empno}
+    </select>
+
+    <select id="findCount" resultType="int">
+        select count(*) from emp
+        <where>
+            <if test="ename!=null">
+                and ename like CONCAT('%',#{ename},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findByPage" resultType="com.hxj.domain.Emp">
+        select empno,ename,job,hiredate,sal from emp
+        <where>
+            <if test="ename!=null">
+                and ename like CONCAT('%',#{ename},'%')
+            </if>
+        </where>
+        order by empno desc limit #{startIndex},#{pageCount}
+    </select>
+</mapper>
